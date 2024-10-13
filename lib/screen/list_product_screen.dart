@@ -32,7 +32,7 @@ class ListProductScreenState extends State<ListProductScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Listado de productos'),
+        title: const Text('Listado de guitarras'),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(120.0),
           child: SingleChildScrollView(

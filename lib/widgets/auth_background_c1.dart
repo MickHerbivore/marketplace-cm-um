@@ -51,8 +51,8 @@ class AuthBackgorundC1 extends StatelessWidget {
 
   BoxDecoration customDecoration() => BoxDecoration(
           gradient: LinearGradient(colors: [
-        MyTheme.primary,
-        MyTheme.primary.withOpacity(0.5),
+        MyTheme.secondary,
+        MyTheme.secondary.withOpacity(0.5),
       ]));
 }
 

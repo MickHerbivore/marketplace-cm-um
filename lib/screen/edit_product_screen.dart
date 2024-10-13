@@ -55,16 +55,16 @@ class _ProductScreenBody extends StatelessWidget {
                     icon: const Icon(Icons.arrow_back, size: 40, color: Colors.black),
                   ),
                 ),
-                Positioned(
-                  top: 40,
-                  right: 20,
-                  child: IconButton(
-                    onPressed: () {
+                // Positioned(
+                //   top: 40,
+                //   right: 20,
+                //   child: IconButton(
+                //     onPressed: () {
                       
-                    },
-                    icon: const Icon(Icons.add_shopping_cart, size: 40, color: Colors.black),
-                  ),
-                ),
+                //     },
+                //     icon: const Icon(Icons.add_shopping_cart, size: 40, color: Colors.black),
+                //   ),
+                // ),
               ],
             ),
             _ProductForm(),
@@ -116,77 +116,80 @@ class _ProductForm extends StatelessWidget {
         child: Form(
           key: productForm.formKey,
           autovalidateMode: AutovalidateMode.onUserInteraction,
-          child: Column(
-            children: [
-              TextFormField(
-                initialValue: product.productImage,
-                onChanged: (value) => product.productImage = value,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'la url es obligatoria';
-                  }
-                  return null;
-                },
-                decoration: InputDecortions.authInputDecoration(
-                  hinText: 'url',
-                  labelText: 'imagen',
-                ),
-              ),
-              const SizedBox(height: 20),
-              TextFormField(
-                initialValue: product.productName,
-                onChanged: (value) => product.productName = value,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'el nombre es obligatorio';
-                  }
-                  return null;
-                },
-                decoration: InputDecortions.authInputDecoration(
-                  hinText: 'Nombre del producto',
-                  labelText: 'Nombre',
-                ),
-              ),
-              const SizedBox(height: 20),
-              TextFormField(
-                keyboardType: TextInputType.number,
-                initialValue: product.productPrice.toString(),
-                onChanged: (value) {
-                  if (int.tryParse(value) == null) {
-                    product.productPrice = 0;
-                  } else {
-                    product.productPrice = int.parse(value);
-                  }
-                },
-                decoration: InputDecortions.authInputDecoration(
-                  hinText: '-----',
-                  labelText: 'Precio',
-                ),
-              ),
-              const SizedBox(height: 20),
-              categoryService.isLoading 
-                ? const CircularProgressIndicator()
-                : DropdownButtonFormField<Categoria>(
-                    value: (product.categoryId != ''
-                      ? categoryService.categories.firstWhere((category) => category.id == product.categoryId)
-                      : null
-                    ),
-                    items: categoryService.categories.map((category) {
-                      return DropdownMenuItem<Categoria>(
-                        value: category,
-                        child: Text(category.categoryName),
-                      );
-                    }).toList(),
-                    onChanged: (value) {
-                      categoryService.selectedCategory = value;
-                      product.categoryId = value!.id;
-                    },
-                    decoration: InputDecortions.authInputDecoration(
-                      labelText: 'Categoría',
-                      hinText: 'Seleccionar categoría',
-                    ),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(10, 10, 10, 30),
+            child: Column(
+              children: [
+                TextFormField(
+                  initialValue: product.productImage,
+                  onChanged: (value) => product.productImage = value,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'la url es obligatoria';
+                    }
+                    return null;
+                  },
+                  decoration: InputDecortions.authInputDecoration(
+                    hinText: 'url',
+                    labelText: 'imagen',
                   ),
-            ],
+                ),
+                const SizedBox(height: 20),
+                TextFormField(
+                  initialValue: product.productName,
+                  onChanged: (value) => product.productName = value,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'el nombre es obligatorio';
+                    }
+                    return null;
+                  },
+                  decoration: InputDecortions.authInputDecoration(
+                    hinText: 'Nombre del producto',
+                    labelText: 'Nombre',
+                  ),
+                ),
+                const SizedBox(height: 20),
+                TextFormField(
+                  keyboardType: TextInputType.number,
+                  initialValue: product.productPrice.toString(),
+                  onChanged: (value) {
+                    if (int.tryParse(value) == null) {
+                      product.productPrice = 0;
+                    } else {
+                      product.productPrice = int.parse(value);
+                    }
+                  },
+                  decoration: InputDecortions.authInputDecoration(
+                    hinText: '-----',
+                    labelText: 'Precio',
+                  ),
+                ),
+                const SizedBox(height: 20),
+                categoryService.isLoading 
+                  ? const CircularProgressIndicator()
+                  : DropdownButtonFormField<Categoria>(
+                      value: (product.categoryId != ''
+                        ? categoryService.categories.firstWhere((category) => category.id == product.categoryId)
+                        : null
+                      ),
+                      items: categoryService.categories.map((category) {
+                        return DropdownMenuItem<Categoria>(
+                          value: category,
+                          child: Text(category.categoryName),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        categoryService.selectedCategory = value;
+                        product.categoryId = value!.id;
+                      },
+                      decoration: InputDecortions.authInputDecoration(
+                        labelText: 'Categoría',
+                        hinText: 'Seleccionar categoría',
+                      ),
+                    ),
+              ],
+            ),
           ),
         ),
       ),
