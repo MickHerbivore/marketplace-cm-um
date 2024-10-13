@@ -99,13 +99,15 @@ class ProductService extends ChangeNotifier {
       }
     };
 
-    // final response = 
+    final response = 
     await http.post(url, body: json.encode(productData), headers: {
       'authorization': basicAuth,
       'Content-type': 'application/json; charset=UTF-8',
     });
 
-    products.add(product);
+    final productMap = Product.fromMap(json.decode(response.body)['fields'], json.decode(response.body)['name']);
+    
+    products.add(productMap);
     return '';
   }
 

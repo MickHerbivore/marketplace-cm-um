@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:marketplace/providers/login_form_provider.dart';
 import 'package:marketplace/services/auth_service.dart';
 import 'package:marketplace/ui/input_decortions.dart';
-import 'package:marketplace/widgets/card_container.dart';
 import 'package:marketplace/widgets/widgets.dart';
 import 'package:provider/provider.dart';
 
@@ -38,7 +37,8 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ]
                 )
-              )
+              ),
+              const SizedBox(height: 250),
             ],
           ),
         )
@@ -52,81 +52,79 @@ class LoginForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final LoginForm = Provider.of<LoginFormProvider>(context);
-    return Container(
-      child: Form(
-        key: LoginForm.formKey,
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        child: Column(children: [
-          TextFormField(
-            autocorrect: false,
-            keyboardType: TextInputType.text,
-            decoration: InputDecortions.authInputDecoration(
-              hinText: 'Ingrese su correo',
-              labelText: 'Email',
-              prefixIcon: Icons.people,
-            ),
-            onChanged: (value) => LoginForm.email = value,
-            validator: (value) {
-              return (value != null && value.length >= 4)
-                  ? null
-                  : 'El usuario no puede estar vacio';
-            },
+    final loginForm = Provider.of<LoginFormProvider>(context);
+    return Form(
+      key: loginForm.formKey,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      child: Column(children: [
+        TextFormField(
+          autocorrect: false,
+          keyboardType: TextInputType.text,
+          decoration: InputDecortions.authInputDecoration(
+            hinText: 'Ingrese su correo',
+            labelText: 'Email',
+            prefixIcon: Icons.people,
           ),
-          const SizedBox(height: 30),
-          TextFormField(
-            autocorrect: false,
-            obscureText: true,
-            keyboardType: TextInputType.text,
-            decoration: InputDecortions.authInputDecoration(
-              hinText: '************',
-              labelText: 'Password',
-              prefixIcon: Icons.lock_outline,
-            ),
-            onChanged: (value) => LoginForm.password = value,
-            validator: (value) {
-              return (value != null && value.length >= 4)
-                  ? null
-                  : 'La contraseña no puede estar vacio';
-            },
-          ),
-          const SizedBox(height: 30),
-          MaterialButton(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            disabledColor: Colors.grey,
-            color: Colors.indigo.shade400,
-            elevation: 0,
-            onPressed: LoginForm.isLoading
+          onChanged: (value) => loginForm.email = value,
+          validator: (value) {
+            return (value != null && value.length >= 4)
                 ? null
-                : () async {
-                    FocusScope.of(context).unfocus();
-                    final authService = Provider.of<AuthService>(context, listen: false);
-                    
-                    if (!LoginForm.isValidForm()) return;
-                    
-                    LoginForm.isLoading = true;
-                    final String? errorMessage = await authService.login(
-                        LoginForm.email, LoginForm.password);
-                    
-                    if (errorMessage == null) {
-                      Navigator.pushNamed(context, 'list');
-                    } else {
-                      print(errorMessage);
-                    }
-                    LoginForm.isLoading = false;
-                  },
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 10),
-              child: const Text(
-                'Ingresar',
-                style: TextStyle(color: Colors.white),
-              ),
+                : 'El usuario no puede estar vacio';
+          },
+        ),
+        const SizedBox(height: 30),
+        TextFormField(
+          autocorrect: false,
+          obscureText: true,
+          keyboardType: TextInputType.text,
+          decoration: InputDecortions.authInputDecoration(
+            hinText: '************',
+            labelText: 'Password',
+            prefixIcon: Icons.lock_outline,
+          ),
+          onChanged: (value) => loginForm.password = value,
+          validator: (value) {
+            return (value != null && value.length >= 4)
+                ? null
+                : 'La contraseña no puede estar vacio';
+          },
+        ),
+        const SizedBox(height: 30),
+        MaterialButton(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          disabledColor: Colors.grey,
+          color: Colors.indigo.shade400,
+          elevation: 0,
+          onPressed: loginForm.isLoading
+              ? null
+              : () async {
+                  FocusScope.of(context).unfocus();
+                  final authService = Provider.of<AuthService>(context, listen: false);
+                  
+                  if (!loginForm.isValidForm()) return;
+                  
+                  loginForm.isLoading = true;
+                  final String? errorMessage = await authService.login(
+                      loginForm.email, loginForm.password);
+                  
+                  if (errorMessage == null) {
+                    Navigator.pushNamed(context, 'list');
+                  } else {
+                    print(errorMessage);
+                  }
+                  loginForm.isLoading = false;
+                },
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 10),
+            child: const Text(
+              'Ingresar',
+              style: TextStyle(color: Colors.white),
             ),
-          )
-        ]),
-      ),
+          ),
+        )
+      ]),
     );
   }
 }

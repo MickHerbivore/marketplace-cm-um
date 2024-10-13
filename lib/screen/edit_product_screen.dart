@@ -53,14 +53,14 @@ class _ProductScreenBody extends StatelessWidget {
                       Navigator.of(context).pop();
                     },
                     icon: const Icon(Icons.arrow_back, size: 40, color: Colors.black),
-                  )
+                  ),
                 ),
                 Positioned(
                   top: 40,
                   right: 20,
                   child: IconButton(
                     onPressed: () {
-                      // Navigator.of(context).pop();
+                      
                     },
                     icon: const Icon(Icons.add_shopping_cart, size: 40, color: Colors.black),
                   ),
@@ -79,6 +79,7 @@ class _ProductScreenBody extends StatelessWidget {
               if (!productForm.isValidForm()) return;
 
               await productService.deleteProduct(productForm.product, context);
+              Navigator.pushNamed(context, 'list');
             },
             heroTag: 'delete',
             child: const Icon(Icons.delete_forever),
@@ -89,8 +90,9 @@ class _ProductScreenBody extends StatelessWidget {
             child: const Icon(Icons.data_saver_on_sharp), 
             onPressed: () async {
               if (!productForm.isValidForm()) return;
-
+              
               await productService.editOrCreateProduct(productForm.product);
+              Navigator.pushNamed(context, 'list');
             },
           ),
         ]
