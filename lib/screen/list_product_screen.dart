@@ -101,7 +101,7 @@ class ListProductScreenState extends State<ListProductScreen> {
             productState: '',
             categoryId: '',
           );
-          Navigator.popAndPushNamed(context, 'edit');
+          Navigator.pushNamed(context, 'edit');
         },
       )
     );

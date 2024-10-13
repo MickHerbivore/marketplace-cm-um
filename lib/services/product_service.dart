@@ -45,6 +45,7 @@ class ProductService extends ChangeNotifier {
     }
 
     isEditCreate = false;
+    loadProducts();
     notifyListeners();
   }
 
@@ -127,7 +128,7 @@ class ProductService extends ChangeNotifier {
 
     products.clear();
     loadProducts();
-    Navigator.of(context).pushNamed('list');
+    Navigator.of(context).popAndPushNamed('list');
     return '';
   }
 }

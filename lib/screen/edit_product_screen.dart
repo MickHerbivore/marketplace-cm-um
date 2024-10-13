@@ -79,7 +79,6 @@ class _ProductScreenBody extends StatelessWidget {
               if (!productForm.isValidForm()) return;
 
               await productService.deleteProduct(productForm.product, context);
-              Navigator.pushNamed(context, 'list');
             },
             heroTag: 'delete',
             child: const Icon(Icons.delete_forever),
@@ -92,7 +91,7 @@ class _ProductScreenBody extends StatelessWidget {
               if (!productForm.isValidForm()) return;
               
               await productService.editOrCreateProduct(productForm.product);
-              Navigator.pushNamed(context, 'list');
+              Navigator.of(context).pop();
             },
           ),
         ]
